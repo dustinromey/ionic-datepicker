@@ -124,8 +124,7 @@ angular.module('ionic-datepicker', ['ionic', 'ionic-datepicker.templates'])
               {
                 text: 'Today',
                 onTap: function (e) {
-                  refreshDateList(new Date());
-                  e.preventDefault();
+                  scope.ipDate = angular.copy(new Date());
                 }
               },
               {
