@@ -18,13 +18,28 @@ angular.module('ionic-datepicker', ['ionic', 'ionic-datepicker.templates'])
           "August", "September", "October", "November", "December"];
 
         if(!scope.ipDate){
-          scope.ipDate = new Date();
+          // var today = new Date();
+          // today.setDate(today.getDate()+1);
+          // if(today.getHours() > 11){
+          //   today.setDate(today.getDate()+1);
+          // }
+          // skipWeekends(today);
+          // // var newDt = skipWeekends(today);
+          // scope.ipDate = today;
+          // console.log(scope.ipDate);
         }
 
-        scope.previousDayEpoch = (+(new Date()) - 86400000);
+        var today = new Date();
+        today.setDate(today.getDate()+1);
+        if(today.getHours() > 11){
+          today.setDate(today.getDate()+1);
+        }
+        skipWeekends(today);
+
+        scope.previousDayEpoch = (+(today));
         var currentDate = angular.copy(scope.ipDate);
 
-        scope.weekNames = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+        scope.weekNames = ['D', 'L', 'M', 'Mi', 'J', 'V', 'S'];
 
         scope.today = {};
         scope.today.dateObj = new Date();
@@ -74,6 +89,15 @@ angular.module('ionic-datepicker', ['ionic', 'ionic-datepicker.templates'])
 
         };
 
+        function skipWeekends (dt){
+          if(dt.getDay() < 2 || dt.getDay() === 6){
+            dt.setDate(dt.getDate()+1)
+            skipWeekends(dt);
+          } else {
+            return dt;
+          }
+        }
+
         scope.prevMonth = function () {
           if (currentDate.getMonth() === 1) {
             currentDate.setFullYear(currentDate.getFullYear());
@@ -121,15 +145,15 @@ angular.module('ionic-datepicker', ['ionic', 'ionic-datepicker.templates'])
             scope: scope,
             buttons: [
               {text: 'Close'},
-              {
-                text: 'Today',
-                onTap: function (e) {
-                  scope.ipDate = angular.copy(new Date());
-                }
-              },
+              // {
+              //   text: 'Today',
+              //   onTap: function (e) {
+              //     scope.ipDate = angular.copy(new Date());
+              //   }
+              // },
               {
                 text: 'Set',
-                type: 'button-positive',
+                type: 'button-stable',
                 onTap: function (e) {
                   scope.date_selection.submitted = true;
 
