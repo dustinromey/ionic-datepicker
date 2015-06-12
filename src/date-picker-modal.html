@@ -21,7 +21,7 @@
            ng-class="{'date_col': (dayList[$parent.$index * numColumns + $index].day != undefined),
            'date_selected': (dayList[$parent.$index * numColumns + $index].dateString === selctedDateString && dayList[$parent.$index * numColumns + $index].day != undefined) ,
            'today' : (dayList[$parent.$index * numColumns + $index].date == today.date && dayList[$parent.$index * numColumns + $index].month == today.month && dayList[$parent.$index * numColumns + $index].year == today.year)}">
-        <div class="date_cell" ng-click="dateSelected(dayList[$parent.$index * numColumns + $index])" ng-class="{'pointer_events_none':(disablePreviousDates && previousDayEpoch > dayList[$parent.$index * numColumns + $index].epochLocal)}">
+        <div class="date_cell" ng-click="dateSelected(dayList[$parent.$index * numColumns + $index])" ng-class="{'pointer_events_none':(disablePreviousDates && previousDayEpoch > dayList[$parent.$index * numColumns + $index].epochLocal || disablePreviousDates && dayList[$parent.$index * numColumns + $index].day < 2 || disablePreviousDates && dayList[$parent.$index * numColumns + $index].day === 6)}">
           {{ dayList[$parent.$index * numColumns + $index].date }}
         </div>
       </div>
