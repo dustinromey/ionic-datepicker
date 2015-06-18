@@ -6,37 +6,32 @@ angular.module('ionic-datepicker', ['ionic', 'ionic-datepicker.templates'])
 
   .directive('ionicDatepicker', ['$ionicPopup', function ($ionicPopup) {
     return {
-      restrict: 'AE',
+      // restrict: 'AE',
       replace: true,
       scope: {
         ipDate: '=idate',
-        disablePreviousDates : '=disablepreviousdates'
+        disablePreviousDates : '=disablepreviousdates',
+        disableWeekends : '=disableweekends',
+        disableTomorrowAfterNoon : '=disabletomorrowafternoon'
       },
       link: function (scope, element, attrs) {
 
         var monthsList = ["January", "February", "March", "April", "May", "June", "July",
           "August", "September", "October", "November", "December"];
 
-        if(!scope.ipDate){
-          // var today = new Date();
-          // today.setDate(today.getDate()+1);
-          // if(today.getHours() > 11){
-          //   today.setDate(today.getDate()+1);
-          // }
-          // skipWeekends(today);
-          // // var newDt = skipWeekends(today);
-          // scope.ipDate = today;
-          // console.log(scope.ipDate);
-        }
-
         var today = new Date();
-        today.setDate(today.getDate()+1);
-        if(today.getHours() > 11){
+        if(scope.disableTomorrowAfterNoon && today.getHours() > 11){
           today.setDate(today.getDate()+1);
         }
-        skipWeekends(today);
 
         scope.previousDayEpoch = (+(today));
+        scope.isWeekend = function (dt){
+          if(dt.getDay() === 0 || dt.getDay() === 6){
+            return true;
+          }else{
+            return false;
+          }
+        };
         var currentDate = angular.copy(scope.ipDate);
 
         scope.weekNames = ['D', 'L', 'M', 'Mi', 'J', 'V', 'S'];
@@ -88,15 +83,6 @@ angular.module('ionic-datepicker', ['ionic', 'ionic-datepicker.templates'])
           scope.cols.length = scope.numColumns;
 
         };
-
-        function skipWeekends (dt){
-          if(dt.getDay() < 2 || dt.getDay() === 6){
-            dt.setDate(dt.getDate()+1)
-            skipWeekends(dt);
-          } else {
-            return dt;
-          }
-        }
 
         scope.prevMonth = function () {
           if (currentDate.getMonth() === 1) {
